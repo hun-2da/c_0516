@@ -1,11 +1,11 @@
 #include<stdio.h>
 #include<stdlib.h>
 typedef int element;
-typedef struct ListNode { // ³ëµå Å¸ÀÔÀ» ±¸Á¶Ã¼·Î Á¤ÀÇÇÑ´Ù. element data;
+typedef struct ListNode { // ë…¸ë“œ íƒ€ì…ì„ êµ¬ì¡°ì²´ë¡œ ì •ì˜í•œë‹¤. element data;
 	element data;
 	struct ListNode* link;
 } ListNode;
-int size=0;	// listÀÇ »çÀÌÁî
+int size=0;	// listì˜ ì‚¬ì´ì¦ˆ
 ListNode* insert_first(ListNode* head, int value)
 {
 	ListNode* p =
@@ -14,8 +14,9 @@ ListNode* insert_first(ListNode* head, int value)
 	// (2)
 	p->link = head; //(3)
 	head = p; //(4)
+	return head;
 }
-// ³ëµå pre µÚ¿¡ »õ·Î¿î ³ëµå »ğÀÔ
+// ë…¸ë“œ pre ë’¤ì— ìƒˆë¡œìš´ ë…¸ë“œ ì‚½ì…
 ListNode* insert(ListNode* head, ListNode* pre, element value)
 {
 	ListNode* p = (ListNode*)malloc(sizeof(ListNode));
@@ -34,7 +35,7 @@ ListNode* delete_first(ListNode* head)
 	free(removed); // (3)
 	return head; // (4)
 }
-// pre°¡ °¡¸®Å°´Â ³ëµåÀÇ ´ÙÀ½ ³ëµå¸¦ »èÁ¦ÇÑ´Ù. 
+// preê°€ ê°€ë¦¬í‚¤ëŠ” ë…¸ë“œì˜ ë‹¤ìŒ ë…¸ë“œë¥¼ ì‚­ì œí•œë‹¤. 
 ListNode* delete(ListNode *head, ListNode *pre)
 {
 	ListNode* removed;
@@ -56,16 +57,16 @@ int main(void)
 	ListNode* head = NULL;
 	while (1) {
 		int move=0;
-		printf("¸Ş´º\n 1)»ğÀÔ\n 2)»èÁ¦\n 3)¸ğµÎ Ãâ·Â\n 0)ÇÁ·Î±×·¥ Á¾·á\nÀÔ·ÂÇØ ÁÖ½Ê½Ã¿À: ");
-		int integer_number = 0; // »ğÀÔ ¼ıÀÚ
-		int location = 0; // À§Ä¡
+		printf("ë©”ë‰´\n 1)ì‚½ì…\n 2)ì‚­ì œ\n 3)ëª¨ë‘ ì¶œë ¥\n 0)í”„ë¡œê·¸ë¨ ì¢…ë£Œ\nì…ë ¥í•´ ì£¼ì‹­ì‹œì˜¤: ");
+		int integer_number = 0; // ì‚½ì… ìˆ«ì
+		int location = 0; // ìœ„ì¹˜
 		scanf_s("%d", &integer_number);
 		switch (integer_number) {
 		case 1:
-			printf("Ãß°¡ÇÒ ¼ıÀÚ¿Í À§Ä¡¸¦ ÀÔ·ÂÇØ ÁÖ½Ê½Ã¿À : ");
+			printf("ì¶”ê°€í•  ìˆ«ìì™€ ìœ„ì¹˜ë¥¼ ì…ë ¥í•´ ì£¼ì‹­ì‹œì˜¤ : ");
 			scanf_s("%d %d", &integer_number, &location);
 			if (size >= location)	size++;
-			else { printf("Àß¸øµÈ ÀÔ·Â°ªÀÔ´Ï´Ù. \n"); continue; }
+			else { printf("ì˜ëª»ëœ ì…ë ¥ê°’ì…ë‹ˆë‹¤. \n"); continue; }
 
 			if (location == 0)
 				head = insert_first(head, integer_number);
@@ -75,13 +76,13 @@ int main(void)
 				for (int i = 0; i < location - 1; i++) { move++; p = p->link; }
 				head = insert(head, p, integer_number);
 			}
-			printf("\n¿òÁ÷ÀÎ È½¼ö´Â %d\n\n", move);
+			printf("\nì›€ì§ì¸ íšŸìˆ˜ëŠ” %d\n\n", move);
 			break;
 		case 2:
-			printf("¸®½ºÆ®¿¡¼­ »èÁ¦ÇÒ À§Ä¡´Â ?! :");
+			printf("ë¦¬ìŠ¤íŠ¸ì—ì„œ ì‚­ì œí•  ìœ„ì¹˜ëŠ” ?! :");
 			scanf_s("%d", &location);
 			if (size >= location)	size--;
-			else { printf("Àß¸øµÈ ÀÔ·Â°ªÀÔ´Ï´Ù. \n"); continue; }
+			else { printf("ì˜ëª»ëœ ì…ë ¥ê°’ì…ë‹ˆë‹¤. \n"); continue; }
 
 			if (location == 0) 
 				head = delete_first(head);
@@ -92,12 +93,12 @@ int main(void)
 				if (p != NULL)
 					head = delete(head, p);
 			}
-			printf("\n¿òÁ÷ÀÎ È½¼ö´Â %d\n\n", move);
+			printf("\nì›€ì§ì¸ íšŸìˆ˜ëŠ” %d\n\n", move);
 			break;
 		case 3: print_list(head); break;
-		case 0: printf("ÇÁ·Î±×·¥ÀÌ Á¾·áµË´Ï´Ù. "); return 0;
+		case 0: printf("í”„ë¡œê·¸ë¨ì´ ì¢…ë£Œë©ë‹ˆë‹¤. "); return 0;
 		default:
-			printf("Àß¸øµÈ ÀÔ·Â°ªÀÔ´Ï´Ù.\n");
+			printf("ì˜ëª»ëœ ì…ë ¥ê°’ì…ë‹ˆë‹¤.\n");
 		}
 	}
 }
